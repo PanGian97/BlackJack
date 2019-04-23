@@ -1,7 +1,7 @@
 package com.company;
 
 public enum Number {
-    ACE,
+
     TWO,
     THREE,
     FOUR,
@@ -14,5 +14,5 @@ public enum Number {
     JACK,
     QUEEN,
     KING,
-
+    ACE,
 }

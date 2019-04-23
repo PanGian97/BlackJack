@@ -38,6 +38,7 @@ public class Player {
       return playerHand.get(playerHand.size()-1).getValue();
     }
 
+
     public int getCurrentHandValue() {
         int value=0;
         for(int i=0;i<playerHand.size();i++){

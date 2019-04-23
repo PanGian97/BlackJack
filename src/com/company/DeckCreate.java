@@ -23,10 +23,10 @@ public class DeckCreate {
 
         for (int i = 0; i < 10; i++) {
 
-            deck.add(new Card(Number.values()[i], SPADE, i + 1));
-            deck.add(new Card(Number.values()[i], DIAMOND, i + 1));
-            deck.add(new Card(Number.values()[i], HEART, i + 1));
-            deck.add(new Card(Number.values()[i], CLUB, i + 1));
+            deck.add(new Card(Number.values()[i], SPADE, i + 2));
+            deck.add(new Card(Number.values()[i], DIAMOND, i + 2));
+            deck.add(new Card(Number.values()[i], HEART, i + 2));
+            deck.add(new Card(Number.values()[i], CLUB, i + 2));
         }
         for (int i = 10; i < 13; i++) {
             deck.add(new Card(Number.values()[i], SPADE, 10));

@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.*;
 
-import static com.company.Suit.*;
+
 
 public class Main {
     static ArrayList<Player> playerList = new ArrayList<>(4);
@@ -77,7 +77,7 @@ public class Main {
 
     public static void GameOfPlayer(int player) {
         boolean draw = true;
-
+        int extraCard=0;
         int playerHandValue = playerList.get(player).getCurrentHandValue();
 
         while (draw) {
@@ -88,7 +88,7 @@ public class Main {
 
                 if (answer.equals("y")) {
                     draw = true;
-                    int extraCard = giveSingleCard(0);
+                    extraCard = giveSingleCard(0);
                     playerHandValue = extraCard + playerHandValue;
                 } else if (answer.equals("n")) {
                     draw = false;
