@@ -27,6 +27,9 @@ public class Dealer {
     public void printDealerLastCard(){
         System.out.println(dealerHand.get(dealerHand.size()-1).getAll());
     }
+    public int getDealerLastCard(){
+        return dealerHand.get(dealerHand.size()-1).getValue();
+    }
 
     public int getDealerCurrentHandValue() {
         int value=0;

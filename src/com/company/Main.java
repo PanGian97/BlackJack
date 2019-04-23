@@ -32,8 +32,8 @@ public class Main {
 
         for (int i = 0; i < playerNum; i++) {
             GameOfPlayer(i);
-            GameOfDealer();
         }
+        GameOfDealer();
         Results();
 
 //
@@ -64,7 +64,7 @@ public class Main {
         trapoula.removeDeckCard(0);
         System.out.println("You draw : ");
         currPlayer.printLastCard();
-        return currPlayer.getCurrentHandValue();
+        return currPlayer.getPlayerLastCard();
     }
 
     public static Integer giveDealerCard() {
@@ -72,7 +72,7 @@ public class Main {
         trapoula.removeDeckCard(0);
         System.out.println("Dealer You draw : ");
         dealer.printDealerLastCard();
-        return dealer.getDealerCurrentHandValue();
+        return dealer.getDealerLastCard();
     }
 
     public static void GameOfPlayer(int player) {
@@ -89,7 +89,7 @@ public class Main {
                 if (answer.equals("y")) {
                     draw = true;
                     int extraCard = giveSingleCard(0);
-                    playerHandValue = extraCard;
+                    playerHandValue = extraCard + playerHandValue;
                 } else if (answer.equals("n")) {
                     draw = false;
 
@@ -119,11 +119,14 @@ public class Main {
                 }
             }
             if (dealerHandValue <= maxPlayerValue) {
-                if (dealerHandValue <= 21 && dealerHandValue <= 17) {
+                if ( dealerHandValue <= 17) {
                     draw = true;
                     int extraCard = giveSingleCard(0);
-                    dealerHandValue = extraCard;
-                } else {
+                    dealerHandValue = extraCard + dealerHandValue;
+                } else if( dealerHandValue<=21){
+                    draw = false;
+                }
+                else {
                     System.out.println("Dealer is burned!");
                     draw = false;
                     dealerHandValue = 0;
@@ -141,8 +144,9 @@ public class Main {
 
     public static void Results(){
             for (int i=0;i<playerList.size();i++){
-
+                int currentPlayerHand =  playerList.get(i).getCurrentHandValue();
                 if(playerList.get(i).getCurrentHandValue() >= dealer.getDealerCurrentHandValue() ){
+                    if(currentPlayerHand>0)
                     System.out.println("Player: "+i+" WON!!");
                 }
             }

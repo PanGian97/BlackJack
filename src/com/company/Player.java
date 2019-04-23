@@ -34,6 +34,9 @@ public class Player {
     public void printLastCard(){
         System.out.println(playerHand.get(playerHand.size()-1).getAll());
     }
+    public int getPlayerLastCard(){
+      return playerHand.get(playerHand.size()-1).getValue();
+    }
 
     public int getCurrentHandValue() {
         int value=0;
