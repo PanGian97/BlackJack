@@ -9,10 +9,11 @@ public class Main {
     static ArrayList<Integer> results = new ArrayList<>();
     static DeckCreate trapoula = new DeckCreate();
     static Dealer dealer = new Dealer();
+    static int playerNum = 0;
 
     public static void main(String[] args) {
 
-        int playerNum = 0;
+
 
 
         trapoula.deckCreate();
@@ -49,8 +50,8 @@ public class Main {
                 System.out.println("Player" + i + " ");
                 currPlayer.printPlayerHand();
             }
-            dealer.setDealerHand(trapoula.getDeck().get(playerList.size()));// while players have drawn
-            trapoula.removeDeckCard(playerList.size());
+            dealer.setDealerHand(trapoula.getDeck().get(playerNum));// while players have drawn
+            trapoula.removeDeckCard(playerNum);
             int dealerValue = dealer.getDealerCurrentHandValue();
             System.out.println("Dealer");
             dealer.printDealerHand();
@@ -91,6 +92,7 @@ public class Main {
                     playerHandValue = extraCard;
                 } else if (answer.equals("n")) {
                     draw = false;
+
                 } else {
                     System.out.println("Wrong answer try again");
                 }
@@ -110,8 +112,8 @@ public class Main {
 
         while (draw == true) {
             System.out.println(" Dealer score is: " + dealerHandValue);
-            for (int i = 0; i <= playerList.size(); i++) {
-                if (maxPlayerValue < playerList.get(i).getCurrentHandValue()) {
+            for (int i = 0; i <= playerNum; i++) {
+                if (maxPlayerValue <= playerList.get(i).getCurrentHandValue()) {
                     maxPlayerValue = playerList.get(i).getCurrentHandValue();
                 }
             }
