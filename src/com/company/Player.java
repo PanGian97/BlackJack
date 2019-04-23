@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Player {
 
     ArrayList<Card> playerHand = new ArrayList<>(12);
+    ArrayList<Card> dealerHand = new ArrayList<>(12);
 
     public void player() {
 

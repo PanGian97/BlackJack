@@ -6,7 +6,9 @@ import static com.company.Suit.*;
 
 public class Main {
     static ArrayList<Player> playerList  = new ArrayList<>(4);
+    static ArrayList<Integer> results = new ArrayList<>();
     static DeckCreate trapoula = new DeckCreate();
+    static Dealer dealer = new Dealer();
     public static void main(String[] args) {
 
         int playerNum = 0;
@@ -29,8 +31,9 @@ public class Main {
 
         for( int i=0; i<playerNum;i++){
             GameOfPlayer(i);
+            GameOfDealer();
         }
-
+        Results();
 
 //
 
@@ -46,6 +49,11 @@ public static void giveCards() {
         System.out.println("Player"+i+" ");
         currPlayer.printPlayerHand();
     }
+    dealer.setDealerHand(trapoula.getDeck().get(playerList.size()));// while players have drawn
+            trapoula.removeDeckCard(playerList.size());
+            int dealerValue = dealer.getDealerCurrentHandValue();
+            System.out.println("Dealer");
+            dealer.printDealerHand();
     }
 }
 public static Integer giveSingleCard(int player){
@@ -56,35 +64,99 @@ public static Integer giveSingleCard(int player){
     currPlayer.printLastCard();
     return currPlayer.getCurrentHandValue();
 }
+public static Integer giveDealerCard(){
+        dealer.setDealerHand(trapoula.getDeck().get(0));
+        trapoula.removeDeckCard(0);
+    System.out.println("Dealer You draw : ");
+    dealer.printDealerLastCard();
+    return dealer.getDealerCurrentHandValue();
+}
 
 public static void GameOfPlayer(int player){
-        boolean draw=false;
+        boolean draw=true;
 
     int playerHandValue=  playerList.get(player).getCurrentHandValue();
 
-        while(draw==false) {
+        while(draw==true) {
             System.out.println(" Your current score is: " + playerHandValue + " you want to continue?(Press Y for Yes and N for No ");
             if(playerHandValue<=21){
             Scanner scanner = new Scanner(System.in);
             String answer = scanner.next().toLowerCase();
 
             if (answer.equals("y")) {
-                draw = false;
+                draw = true;
              int extraCard = giveSingleCard(0);
             playerHandValue= extraCard;
             } else if (answer.equals("n")) {
-                draw = true;
+                draw = false;
             }
             else{
                 System.out.println("Wrong answer try again");
             }
         }else{
-                System.out.println();
+                System.out.println("You are burned!");
+               playerHandValue=0;
+               draw=false;
             }
 
-}
+       }
     }
-}
+    public static void GameOfDealer(){
+        boolean draw=true;
+int maxPlayerValue=0;
+        int dealerHandValue=  dealer.getDealerCurrentHandValue();
+
+        while(draw==true) {
+            System.out.println(" Dealer score is: " + dealerHandValue );
+            for(int i=0;i<=playerList.size();i++){
+                if(maxPlayerValue < playerList.get(i).getCurrentHandValue()) {
+                      maxPlayerValue=playerList.get(i).getCurrentHandValue();
+                }
+            }
+                if(dealerHandValue<maxPlayerValue) {
+                    if (dealerHandValue <= 21 && dealerHandValue <= 17) {
+                        draw = true;
+                        int extraCard = giveSingleCard(0);
+                        dealerHandValue = extraCard;
+                    }
+                    else{System.out.println("You are burned!");
+                        draw = false;}
+                }
+            else{
+
+                }
+                else{
+                    System.out.println("Wrong answer try again");
+                }
+            }else{
+
+                 dealerHandValue=0;
+
+            }
+
+        }
+
+
+    }
+    public static void Results(){
+            for (int i=0;i<=playerList.size();i++){
+
+                if(playerList.get(i).getCurrentHandValue() >= dealer.getDealerCurrentHandValue() ){
+                    System.out.println("Player : "+i+"got the money");
+                }
+            }
+
+
+        }
+
+    }
+
+
+
+
+
+
+
 
 
 
