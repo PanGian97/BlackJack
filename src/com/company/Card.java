@@ -35,4 +35,8 @@ public class Card {
     public void setValue(int value) {
         this.value = value;
     }
+
+    public String getAll() {
+        return this.number + "," + this.suit+","+this.value;
+    }
 }
