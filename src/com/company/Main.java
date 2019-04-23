@@ -80,8 +80,8 @@ public class Main {
 
         int playerHandValue = playerList.get(player).getCurrentHandValue();
 
-        while (draw == true) {
-            System.out.println(" Your current score is: " + playerHandValue + " you want to continue?(Press Y for Yes and N for No ");
+        while (draw) {
+            System.out.println(" Player"+player+" score is: " + playerHandValue + " you want to continue?(Press Y for Yes and N for No ");
             if (playerHandValue <= 21) {
                 Scanner scanner = new Scanner(System.in);
                 String answer = scanner.next().toLowerCase();
@@ -95,9 +95,10 @@ public class Main {
 
                 } else {
                     System.out.println("Wrong answer try again");
+
                 }
             } else {
-                System.out.println("You are burned!");
+                System.out.println("Player : "+player+"is burned :(");
                 playerHandValue = 0;
                 draw = false;
             }
@@ -112,7 +113,7 @@ public class Main {
 
         while (draw == true) {
             System.out.println(" Dealer score is: " + dealerHandValue);
-            for (int i = 0; i <= playerNum; i++) {
+            for (int i = 0; i < playerNum; i++) {
                 if (maxPlayerValue <= playerList.get(i).getCurrentHandValue()) {
                     maxPlayerValue = playerList.get(i).getCurrentHandValue();
                 }
@@ -123,7 +124,7 @@ public class Main {
                     int extraCard = giveSingleCard(0);
                     dealerHandValue = extraCard;
                 } else {
-                    System.out.println("You are burned!");
+                    System.out.println("Dealer is burned!");
                     draw = false;
                     dealerHandValue = 0;
                 }
@@ -139,10 +140,10 @@ public class Main {
 
 
     public static void Results(){
-            for (int i=0;i<=playerList.size();i++){
+            for (int i=0;i<playerList.size();i++){
 
                 if(playerList.get(i).getCurrentHandValue() >= dealer.getDealerCurrentHandValue() ){
-                    System.out.println("Player : "+i+"got the money");
+                    System.out.println("Player: "+i+" WON!!");
                 }
             }
 
