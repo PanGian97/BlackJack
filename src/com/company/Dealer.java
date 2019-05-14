@@ -12,8 +12,8 @@ public class Dealer {
         return dealerHand;
     }
 
-    public void setDealerHand(Card dealerHand) {
-        this.dealerHand.add(dealerHand);
+    public void addCardToDealerHand(Card cardToBeAdded) {
+        this.dealerHand.add(cardToBeAdded);
     }
 
 

@@ -28,7 +28,7 @@ public class Main {
 
         System.out.println(playerList.size());
 
-        giveCards();
+        GiveStartingCards();
 
         for (int i = 0; i < playerNum; i++) {
             GameOfPlayer(i);
@@ -40,56 +40,67 @@ public class Main {
 
     }
 
-    public static void giveCards() {
+    public static void GiveStartingCards() {
         for (int x = 0; x < 2; x++) {
             for (int i = 0; i < playerList.size(); i++) {
                 Player currPlayer = playerList.get(i);
-                currPlayer.setPlayerHand(trapoula.getDeck().get(i));
-                trapoula.removeDeckCard(i);
-                int value = currPlayer.getCurrentHandValue();
+                currPlayer.addCardToPlayersHand(trapoula.getDeck().get(0));
+                trapoula.removeDeckCard(0);
+                int pHandValue = currPlayer.getCurrentHandValue();
                 System.out.println("Player" + i + " ");
                 currPlayer.printPlayerHand();
             }
-            dealer.setDealerHand(trapoula.getDeck().get(playerNum));// while players have drawn
-            trapoula.removeDeckCard(playerNum);
-            int dealerValue = dealer.getDealerCurrentHandValue();
+            dealer.setDealerHand(trapoula.getDeck().get(0));// while players have drawn
+            trapoula.removeDeckCard(0);
+            int dHandValue = dealer.getDealerCurrentHandValue();
             System.out.println("Dealer");
             dealer.printDealerHand();
         }
     }
 
-    public static Integer giveSingleCard(int player) {
+//    public static Integer giveSingleCardValue(int player) {
+//        Player currPlayer = playerList.get(player);
+//        currPlayer.setPlayerHand(trapoula.getDeck().get(0));
+//        trapoula.removeDeckCard(0);
+//        System.out.println("You draw : ");
+//        currPlayer.printLastCard();
+//        return currPlayer.getPlayerLastCardValue();
+//    }
+    public static Card giveSinglePlayerCard(int player) {
         Player currPlayer = playerList.get(player);
-        currPlayer.setPlayerHand(trapoula.getDeck().get(0));
-        trapoula.removeDeckCard(0);
+        Card drawnCard = trapoula.getDeck().get(0);
+        currPlayer.addCardToPlayersHand(drawnCard);
         System.out.println("You draw : ");
-        currPlayer.printLastCard();
-        return currPlayer.getPlayerLastCard();
-    }
-
-    public static Integer giveDealerCard() {
-        dealer.setDealerHand(trapoula.getDeck().get(0));
+        currPlayer.printDrawnCard(drawnCard);
         trapoula.removeDeckCard(0);
+        return drawnCard;
+    }
+    public static Card giveSingleDealerCard() {
+        Card drawnCard = trapoula.getDeck().get(0);
+        dealer.addCardToDealerHand(drawnCard);
         System.out.println("Dealer You draw : ");
         dealer.printDealerLastCard();
-        return dealer.getDealerLastCard();
+        trapoula.removeDeckCard(0);
+        return drawnCard;
     }
 
     public static void GameOfPlayer(int player) {
         boolean draw = true;
-        int extraCard=0;
-        int playerHandValue = playerList.get(player).getCurrentHandValue();
+      //  int extraCard=0;
+       Player currentPlayer =  playerList.get(player);
+       int playerHandValue;
 
         while (draw) {
-            System.out.println(" Player"+player+" score is: " + playerHandValue + " you want to continue?(Press Y for Yes and N for No ");
-            if (playerHandValue <= 21) {
+            playerHandValue = currentPlayer.getCurrentHandValue();
+        System.out.println("player "+currentPlayer+" hand value is: "+playerHandValue+"want to continue drawing?(Press Y for Yes and N for No )");
+            if (playerHandValue < 21) {
                 Scanner scanner = new Scanner(System.in);
                 String answer = scanner.next().toLowerCase();
 
                 if (answer.equals("y")) {
                     draw = true;
-                    extraCard = giveSingleCard(0);
-                    playerHandValue = extraCard + playerHandValue;
+                    giveSinglePlayerCard(player);
+                                                     //  playerHandValue = currentPlayer.getCurrentHandValue();
                 } else if (answer.equals("n")) {
                     draw = false;
 
@@ -97,33 +108,45 @@ public class Main {
                     System.out.println("Wrong answer try again");
 
                 }
-            } else {
+            }
+            else if(playerHandValue == 21){
+                System.out.println("player "+currentPlayer+" GOT 21!");
+                draw=false;
+            }
+            else {
                 System.out.println("Player : "+player+"is burned :(");
-                playerHandValue = 0;
                 draw = false;
             }
 
         }
     }
 
+    public static Player bestPlayerScore() {
+        Player bestPlayer = new Player();
+        for (int i = 0; i < playerNum; i++) {
+            if (bestPlayer.getCurrentHandValue() <= playerList.get(i).getCurrentHandValue()) {
+                bestPlayer = playerList.get(i);
+            }
+        }
+        return bestPlayer;
+    }
     public static void GameOfDealer() {
         boolean draw = true;
         int maxPlayerValue = 0;
-        int dealerHandValue = dealer.getDealerCurrentHandValue();
+        int dealerHandValue;
 
-        while (draw == true) {
+        while (draw) {
+             dealerHandValue = dealer.getDealerCurrentHandValue();
             System.out.println(" Dealer score is: " + dealerHandValue);
-            for (int i = 0; i < playerNum; i++) {
-                if (maxPlayerValue <= playerList.get(i).getCurrentHandValue()) {
-                    maxPlayerValue = playerList.get(i).getCurrentHandValue();
-                }
-            }
+
+           maxPlayerValue = bestPlayerScore().getCurrentHandValue();
+
             if (dealerHandValue <= maxPlayerValue) {
-                if ( dealerHandValue <= 17) {
+
                     draw = true;
-                    int extraCard = giveSingleCard(0);
+                    int extraCard = giveSinglePlayerCard(0);
                     dealerHandValue = extraCard + dealerHandValue;
-                } else if( dealerHandValue<=21){
+                } else if( dealerHandValue>21){
                     draw = false;
                 }
                 else {
@@ -155,7 +178,33 @@ public class Main {
         }
 
     }
-
+// while (draw) {
+//         dealerHandValue = dealer.getDealerCurrentHandValue();
+//         System.out.println(" Dealer score is: " + dealerHandValue);
+//         for (int i = 0; i < playerNum; i++) {
+//        if (maxPlayerValue <= playerList.get(i).getCurrentHandValue()) {
+//        maxPlayerValue = playerList.get(i).getCurrentHandValue();
+//        }
+//        }
+//        if (dealerHandValue <= maxPlayerValue) {
+//        if ( dealerHandValue <= 17) {
+//        draw = true;
+//        int extraCard = giveSinglePlayerCard(0);
+//        dealerHandValue = extraCard + dealerHandValue;
+//        } else if( dealerHandValue<=21){
+//        draw = false;
+//        }
+//        else {
+//        System.out.println("Dealer is burned!");
+//        draw = false;
+//        dealerHandValue = 0;
+//        }
+//        } else {
+//        System.out.println("Dealer WON!!!");
+//        draw=false;
+//        }
+//
+//        }
 
 
 

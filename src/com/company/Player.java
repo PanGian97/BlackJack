@@ -20,10 +20,11 @@ public class Player {
         return playerHand;
     }
 
-    public void setPlayerHand(Card playerHand) {
-        this.playerHand.add(playerHand);
-    }
 
+
+public void addCardToPlayersHand(Card cardToBeAdded){
+        playerHand.add(cardToBeAdded);
+}
     public void printPlayerHand() {
 
         for (int i = 0; i < playerHand.size(); i++) {
@@ -31,10 +32,10 @@ public class Player {
 
         }
     }
-    public void printLastCard(){
-        System.out.println(playerHand.get(playerHand.size()-1).getAll());
+    public void printDrawnCard(Card drawnCard){
+        System.out.println(drawnCard);
     }
-    public int getPlayerLastCard(){
+    public int getPlayerLastCardValue(){
       return playerHand.get(playerHand.size()-1).getValue();
     }
 
