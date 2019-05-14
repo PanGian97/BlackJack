@@ -44,7 +44,7 @@ public class Main {
                 currPlayer.addCardToPlayersHand(trapoula.getDeck().get(0));
                 trapoula.removeDeckCard(0);
                 int pHandValue = currPlayer.getCurrentHandValue();
-                System.out.println("Player " + i + "turn to get starting cards... ");
+                System.out.println("Player " + i + " turn to get starting cards... ");
                 currPlayer.printPlayerHand();
             }
             dealer.addCardToDealerHand(trapoula.getDeck().get(0));// while players have drawn
@@ -68,7 +68,7 @@ public class Main {
         Card drawnCard = trapoula.getDeck().get(0);
         currPlayer.addCardToPlayersHand(drawnCard);
         System.out.println("You draw : ");
-        currPlayer.printDrawnCard(drawnCard);
+        currPlayer.printDrawnCard(drawnCard.getAll());
         trapoula.removeDeckCard(0);
         return drawnCard;
     }
@@ -89,7 +89,7 @@ public class Main {
 
         while (draw) {
             playerHandValue = currentPlayer.getCurrentHandValue();
-        System.out.println("player "+currentPlayer+" hand value is: "+playerHandValue+"want to continue drawing?(Press Y for Yes and N for No )");
+        System.out.println("player "+player+" hand value is: "+playerHandValue+" want to continue drawing?(Press Y for Yes and N for No )");
             if (playerHandValue < 21) {
                 Scanner scanner = new Scanner(System.in);
                 String answer = scanner.next().toLowerCase();
@@ -107,11 +107,11 @@ public class Main {
                 }
             }
             else if(playerHandValue == 21){
-                System.out.println("player "+currentPlayer+" GOT 21!");
-                draw=false;
+                System.out.println("player "+player+" GOT 21!");
+                //draw=false;
             }
             else {
-                System.out.println("Player : "+player+"is burned :(");
+                System.out.println("Player : "+player+" is burned :(");
                 draw = false;
             }
 
@@ -154,7 +154,7 @@ public class Main {
                     draw = false;
                 }
             else if(dealerHandValue==21){
-                System.out.println("Dealer won the game");
+                System.out.println("Dealer won the game with 21!!");
                 draw=false;
             }
             else if(dealerHandValue>21){
@@ -162,9 +162,12 @@ public class Main {
                     draw = false;
                    playerResults();
                 }
-            else {
-                System.out.println("Everybody are burned...No winner");
+            else if(dealerHandValue>= maxPlayerValue && dealerHandValue<21){
+                System.out.println("Dealer won the game...");
                 draw=false;
+            }
+            else {
+                System.out.println("No winner...Everybody burned to ashes");
             }
             }
         }
@@ -183,10 +186,11 @@ public class Main {
                 if(currentPlayerHand <=21){
                 if(maxAcceptedValue < currentPlayerHand){
                     playerIndex = i;
+                    maxAcceptedValue = currentPlayerHand;
                 }
                 }
             }
-        if(playerIndex>0)System.out.println("The winner is player "+playerIndex+"with "+maxAcceptedValue);
+        if(playerIndex>=0)System.out.println("The winner is player "+playerIndex+" with "+maxAcceptedValue);
 
         }
 

@@ -32,8 +32,8 @@ public void addCardToPlayersHand(Card cardToBeAdded){
 
         }
     }
-    public void printDrawnCard(Card drawnCard){
-        System.out.println(drawnCard);
+    public void printDrawnCard(String drawnCardContent){
+        System.out.println(drawnCardContent);
     }
     public int getPlayerLastCardValue(){
       return playerHand.get(playerHand.size()-1).getValue();
