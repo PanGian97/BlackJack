@@ -2,9 +2,9 @@ package com.company;
 
 import java.util.ArrayList;
 
-public class Presenter {
+public class Presenter implements IPresenter{
 
-        View view;
+        IView view;
         IDealer dealer = new Dealer();
         IPlayer player;
         IDeckCreate trapoula = new DeckCreate();
@@ -12,21 +12,18 @@ public class Presenter {
         private static ArrayList<Integer> results = new ArrayList<>();
         private static int playerNum = 0;
 
-        public Presenter(View view) {
+        public Presenter(IView view) {
             this.view = view;
             trapoula.deckCreate();
             playerNum = view.insertPlayers();
             fullGame();
         }
-
-
+@Override
+public Integer number(){int c=55;return c; }
        public void fullGame(){
             for (int i = 0; i < playerNum; i++) {
                 playerList.add(new Player());
             }
-
-           //main System.out.println(playerList.size());
-
             GiveStartingCards();
 
             for (int i = 0; i < playerNum; i++) {//players round
@@ -35,7 +32,7 @@ public class Presenter {
             dealerGame();//dealer round
 
         }
-
+@Override
         public void GiveStartingCards() {
             for (int x = 0; x < 2; x++) {
                 for (int i = 0; i < playerList.size(); i++) {
@@ -49,25 +46,26 @@ public class Presenter {
                   view.printStartDealerHand(dealer);
             }
         }
-
-        public static Card giveSinglePlayerCard(int player) {
+@Override
+        public void giveSinglePlayerCard(int player) {
             Player currPlayer = playerList.get(player);
             Card drawnCard = trapoula.getDeck().get(0);
             currPlayer.addCardToPlayersHand(drawnCard);
-            System.out.println("You draw : ");
-            currPlayer.printDrawnCard(drawnCard.getAll());
+            view.printPlayerDrawResult();
+            currPlayer.printDrawnCard(drawnCard.getAll());//will change
             trapoula.removeDeckCard(0);
-            return drawnCard;
+            //return drawnCard;
         }
-        public static Card giveSingleDealerCard() {
+        @Override
+        public void giveSingleDealerCard() {
             Card drawnCard = trapoula.getDeck().get(0);
             dealer.addCardToDealerHand(drawnCard);
-            System.out.println("Dealer You draw : ");
-            dealer.printDealerLastCard();
+            view.printDealerDrawResult();
+            dealer.printDealerLastCard();//will change
             trapoula.removeDeckCard(0);
-            return drawnCard;
+            //return drawnCard;
         }
-
+@Override
         public void playerGame(int player) {
             boolean draw = true;
             Player currentPlayer =  playerList.get(player);
@@ -75,11 +73,11 @@ public class Presenter {
 
             while (draw) {
                 playerHandValue = currentPlayer.getCurrentHandValue();
-               view.viewPlayerGame(player,playerHandValue,draw);
+              draw = view.viewPlayerGame(player,playerHandValue,draw);
             }
         }
-
-        public static Player bestPlayerScore() {
+@Override
+        public Player bestPlayerScore() {
             Player bestPlayer = new Player();
             int comparedPlayerValue=0;
             for (int i = 0; i < playerNum; i++) {
@@ -91,7 +89,7 @@ public class Presenter {
             return bestPlayer;
         }
 
-
+@Override
         public  void dealerGame() {
             boolean draw = true;
             int maxPlayerValue = 0;
@@ -99,14 +97,13 @@ public class Presenter {
 
             while (draw) {
                 dealerHandValue = dealer.getDealerCurrentHandValue();
+               draw=  view.viewDealerGame(dealerHandValue,draw,maxPlayerValue);
 
             }
         }
 
-
-
-
-        public static void playerResults(){
+@Override
+        public void playerResults(){
             int currentPlayerHand=0;
             int maxAcceptedValue=0;
             int playerIndex=0;
@@ -121,7 +118,7 @@ public class Presenter {
                     }
                 }
             }
-            if(playerIndex>=0)System.out.println("The winner is player "+playerIndex+" with "+maxAcceptedValue);
+            if(playerIndex>=0)view.printPlayerWinner(playerIndex,maxAcceptedValue);
 
         }
 

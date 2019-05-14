@@ -3,26 +3,41 @@ package com.company;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class View {
+public class View implements IView{
 
-Presenter presenter;
+        IPresenter presenter ;
         private static int playerNum = 0;
+    int xx=0;
 
+    public View(){ IPresenter presenter = new Presenter(this);
+        //int xx = presenter.number();
+          this.presenter = presenter;
+    }
+//    public void setPresenter(Presenter presenter) {
+//        this.presenter=presenter;
+//
+//    }
+@Override
         public Integer insertPlayers() {
-
+    System.out.println(xx);
             System.out.println("insert number of players");
             Scanner scanner = new Scanner(System.in);
             playerNum = scanner.nextInt();
+           System.out.println(presenter.number());
             return playerNum;
+
         }
+        @Override
 public void printStartPlayerHand(int i,IPlayer currPlayer) {
     System.out.println("Player " + i + " turn to get starting cards... ");
     currPlayer.printPlayerHand();
 }
+@Override
     public void printStartDealerHand(IDealer dealer) {
         System.out.println("Dealer turn to get starting cards...");
         dealer.printDealerHand();
     }
+    @Override
  public Boolean viewPlayerGame(int player, int playerHandValue, boolean draw)
     {
         System.out.println("player "+player+" hand value is: "+playerHandValue+" want to continue drawing?(Press Y for Yes and N for No )");
@@ -32,6 +47,7 @@ public void printStartPlayerHand(int i,IPlayer currPlayer) {
 
             if (answer.equals("y")) {
                 draw = true;
+
                presenter.giveSinglePlayerCard(player);
                 //  playerHandValue = currentPlayer.getCurrentHandValue();
             } else if (answer.equals("n")) {
@@ -49,10 +65,10 @@ public void printStartPlayerHand(int i,IPlayer currPlayer) {
         else {
             System.out.println("Player : "+player+" is burned :(");
             draw = false;
-        } return draw;
-    }
+} return draw;
+        }
 
-
+@Override
    public Boolean viewDealerGame(int dealerHandValue,boolean draw,int maxPlayerValue){
      System.out.println(" Dealer score is: " + dealerHandValue);
 
@@ -78,7 +94,7 @@ public void printStartPlayerHand(int i,IPlayer currPlayer) {
         draw = false;
         presenter.playerResults();
     }
-                else if(dealerHandValue>= maxPlayerValue && dealerHandValue<21){
+                else if(dealerHandValue> maxPlayerValue && dealerHandValue<21){
         System.out.println("Dealer won the game...");
         draw=false;
     }
@@ -86,4 +102,17 @@ public void printStartPlayerHand(int i,IPlayer currPlayer) {
         System.out.println("No winner...Everybody burned to ashes");
     }    return draw;
         }
+        @Override
+        public void printPlayerDrawResult() {
+            System.out.println("You draw : ");
+        }
+        @Override
+       public void printDealerDrawResult(){
+            System.out.println("Dealer You draw : ");
+        }
+        @Override
+        public void printPlayerWinner(int playerIndex,int maxAcceptedValue){
+            System.out.println("The winner is player "+playerIndex+" with "+maxAcceptedValue);}
+
+
 }
