@@ -6,20 +6,14 @@ import java.util.Collections;
 import static com.company.Suit.*;
 import static com.company.Suit.CLUB;
 
-public class DeckCreate {
-
-
-
+public class DeckCreate implements IDeckCreate{
 
     ArrayList<Card> deck = new ArrayList<>(52);
+
     public DeckCreate() {
     }
-
+@Override
     public void deckCreate() {
-
-        // EnumSet<Number> numbers = EnumSet.allOf( Number.class);
-        // Card[] deck = new Card[52];
-
 
         for (int i = 0; i < 10; i++) {
 
@@ -37,14 +31,15 @@ public class DeckCreate {
 
         Collections.shuffle(deck);
     }
+    @Override
     public ArrayList<Card> getDeck() {
         return deck;
     }
-
+@Override
     public void removeDeckCard(int pulledCardPos) {
        deck.remove(pulledCardPos);
     }
-
+@Override
     public void printDeck(){
 
         for (int i = 0; i < deck.size(); i++) {

@@ -11,10 +11,11 @@ public class Main {
     private static Dealer dealer = new Dealer();
    private static int playerNum = 0;
 
+
+
+
+
     public static void main(String[] args) {
-
-
-
 
         trapoula.deckCreate();
         System.out.println("insert number of players");
@@ -55,14 +56,6 @@ public class Main {
         }
     }
 
-//    public static Integer giveSingleCardValue(int player) {
-//        Player currPlayer = playerList.get(player);
-//        currPlayer.setPlayerHand(trapoula.getDeck().get(0));
-//        trapoula.removeDeckCard(0);
-//        System.out.println("You draw : ");
-//        currPlayer.printLastCard();
-//        return currPlayer.getPlayerLastCardValue();
-//    }
     public static Card giveSinglePlayerCard(int player) {
         Player currPlayer = playerList.get(player);
         Card drawnCard = trapoula.getDeck().get(0);
