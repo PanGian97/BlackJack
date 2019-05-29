@@ -1,8 +1,10 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public interface IPresenter {
-  Integer number();
-     void fullGame();
+
+     void fullGame(int playerNum);
 
      void GiveStartingCards();
 
@@ -10,7 +12,9 @@ public interface IPresenter {
 
    void giveSinglePlayerCard(int player);
 
-     void giveSingleDealerCard();
+
+
+    void giveSingleDealerCard();
 
 
      void playerGame(int player);

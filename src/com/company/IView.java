@@ -13,12 +13,14 @@ public interface IView {
 
 
      Boolean viewDealerGame(int dealerHandValue,boolean draw,int maxPlayerValue);
-
+void playBlackJack();
 
   void printPlayerDrawResult() ;
      void printDealerDrawResult();
 
    void printPlayerWinner(int playerIndex,int maxAcceptedValue);
+
+    void printPlayerWinner(Player player);
 
 
 

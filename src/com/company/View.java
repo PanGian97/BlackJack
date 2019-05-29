@@ -5,25 +5,27 @@ import java.util.Scanner;
 
 public class View implements IView{
 
-        IPresenter presenter ;
+        private IPresenter presenter ;
         private static int playerNum = 0;
-    int xx=0;
 
-    public View(){ IPresenter presenter = new Presenter(this);
-        //int xx = presenter.number();
-          this.presenter = presenter;
+
+    public View(){
+        presenter = new Presenter(this);
     }
-//    public void setPresenter(Presenter presenter) {
-//        this.presenter=presenter;
-//
-//    }
+    @Override
+    public void playBlackJack(){
+
+
+         insertPlayers();
+        presenter.fullGame(playerNum);
+    }
+
 @Override
         public Integer insertPlayers() {
-    System.out.println(xx);
+
             System.out.println("insert number of players");
             Scanner scanner = new Scanner(System.in);
             playerNum = scanner.nextInt();
-           System.out.println(presenter.number());
             return playerNum;
 
         }
@@ -113,6 +115,11 @@ public void printStartPlayerHand(int i,IPlayer currPlayer) {
         @Override
         public void printPlayerWinner(int playerIndex,int maxAcceptedValue){
             System.out.println("The winner is player "+playerIndex+" with "+maxAcceptedValue);}
+
+    @Override
+    public void printPlayerWinner(Player player) {
+        System.out.println("silver winner is: "+player);
+    }
 
 
 }

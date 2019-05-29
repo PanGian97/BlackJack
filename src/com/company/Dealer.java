@@ -43,4 +43,15 @@ public class Dealer implements IDealer{
         return value;
 
     }
+
+    @Override
+    public ArrayList<Number> getDealerCurrentHandNumbers(){
+        ArrayList<Number> numberList= new ArrayList<>();
+        for(int i=0;i<dealerHand.size();i++){
+            numberList.add(dealerHand.get(i).getNumber());
+
+        }
+
+        return numberList;
+    }
 }

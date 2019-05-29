@@ -22,5 +22,5 @@ public interface IPlayer {
         int getCurrentHandValue();
 
 
-
+    ArrayList<Number> getCurrentHandNumbers();
 }

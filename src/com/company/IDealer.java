@@ -18,4 +18,5 @@ public interface IDealer {
 
     int getDealerCurrentHandValue();
 
+    ArrayList<Number> getDealerCurrentHandNumbers();
 }

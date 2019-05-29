@@ -53,4 +53,15 @@ public void addCardToPlayersHand(Card cardToBeAdded){
         return value;
 
     }
+    @Override
+    public ArrayList<Number> getCurrentHandNumbers(){
+        ArrayList<Number> numberList= new ArrayList<>();
+        for(int i=0;i<playerHand.size();i++){
+            numberList.add(playerHand.get(i).getNumber());
+
+        }
+
+        return numberList;
+    }
+
 }

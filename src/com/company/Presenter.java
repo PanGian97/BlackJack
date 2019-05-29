@@ -1,26 +1,30 @@
 package com.company;
 
+import com.company.Rules.AceRules;
+import com.company.Rules.BlackJRules;
+
 import java.util.ArrayList;
 
 public class Presenter implements IPresenter{
 
         IView view;
-        IDealer dealer = new Dealer();
-        IPlayer player;
+        Dealer dealer = new Dealer();
+
         IDeckCreate trapoula = new DeckCreate();
+        AceRules aceRule = new BlackJRules();
         private static ArrayList<Player> playerList = new ArrayList<>(4);
         private static ArrayList<Integer> results = new ArrayList<>();
         private static int playerNum = 0;
 
         public Presenter(IView view) {
+
             this.view = view;
-            trapoula.deckCreate();
-            playerNum = view.insertPlayers();
-            fullGame();
         }
-@Override
-public Integer number(){int c=55;return c; }
-       public void fullGame(){
+
+       public void fullGame(int playerNum){
+            this.playerNum = playerNum;
+           trapoula.deckCreate();
+
             for (int i = 0; i < playerNum; i++) {
                 playerList.add(new Player());
             }
@@ -50,20 +54,24 @@ public Integer number(){int c=55;return c; }
         public void giveSinglePlayerCard(int player) {
             Player currPlayer = playerList.get(player);
             Card drawnCard = trapoula.getDeck().get(0);
+           if( aceRule.checkAndSetAceValue(currPlayer,drawnCard)) System.out.println("ACE IS 1");
             currPlayer.addCardToPlayersHand(drawnCard);
             view.printPlayerDrawResult();
             currPlayer.printDrawnCard(drawnCard.getAll());//will change
             trapoula.removeDeckCard(0);
             //return drawnCard;
         }
-        @Override
+
+
+    @Override
         public void giveSingleDealerCard() {
             Card drawnCard = trapoula.getDeck().get(0);
+          if( aceRule.checkAndSetAceValue(dealer,drawnCard))System.out.println("ACE IS 1");
             dealer.addCardToDealerHand(drawnCard);
             view.printDealerDrawResult();
             dealer.printDealerLastCard();//will change
             trapoula.removeDeckCard(0);
-            //return drawnCard;
+
         }
 @Override
         public void playerGame(int player) {
@@ -107,21 +115,32 @@ public Integer number(){int c=55;return c; }
             int currentPlayerHand=0;
             int maxAcceptedValue=0;
             int playerIndex=0;
+            Player silverWinner;
             //playerIndex=-1;//case we have all players above 21...not used now cause we have checked this in dealerTurn()
 
             for (int i=0;i<playerList.size();i++)//+dealer
             { currentPlayerHand = playerList.get(i).getCurrentHandValue();
                 if(currentPlayerHand <=21){
+
                     if(maxAcceptedValue < currentPlayerHand){
                         playerIndex = i;
                         maxAcceptedValue = currentPlayerHand;
+
                     }
                 }
             }
-            if(playerIndex>=0)view.printPlayerWinner(playerIndex,maxAcceptedValue);
+            if(maxAcceptedValue!=21){
+                silverWinner = aceRule.checkForSilverWin(playerList);
+                if(silverWinner!= null) {
+                    view.printPlayerWinner(silverWinner);
+                }else return;
+            }
+
+           else if(playerIndex>=0)view.printPlayerWinner(playerIndex,maxAcceptedValue);
 
         }
 
-    }
+
+}
 
 
